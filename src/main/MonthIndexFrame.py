@@ -41,6 +41,8 @@ class MonthIndexFrame(tk.Frame):
 
     def selectgracerawdatadir(self):
         self.inputfilespath = tkFileDialog.askdirectory(initialdir="/", title="Select GRACE Raw Data Directory")
+        self.inputgracedirtxtfield.delete(1.0, tk.END)
+        self.inputgracedirtxtfield.insert(tk.END, self.inputfilespath)
         self.files = os.listdir(self.inputfilespath)
         nooffiles = "No of Files= " + str(len(self.files))
         self.nooffileslbl = tk.Label(self.master, text=nooffiles)

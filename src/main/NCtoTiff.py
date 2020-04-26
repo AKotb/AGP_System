@@ -103,7 +103,7 @@ class NCtoTiff(tk.Frame):
         
         mlab.start()
         
-        mlab.run_func('C:/Users/ahmed.kotb/workspace/AGPS_PYT27/resources/netcdf_to_tiff.m', {'arg1': ncfilefullpath, 'arg2': ncvar, 'arg3': nctimes, 'arg4': tiffoutputdir})
+        mlab.run_func('C:/Users/akotb/PycharmProjects/AGP_System/resources/netcdf_to_tiff.m', {'arg1': ncfilefullpath, 'arg2': ncvar, 'arg3': nctimes, 'arg4': tiffoutputdir})
         
         #self.conversionstartedlbl.grid_forget()
         self.startconvertingnctotiffbtn.grid_forget()

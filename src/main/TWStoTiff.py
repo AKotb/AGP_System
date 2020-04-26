@@ -74,7 +74,7 @@ class TWStoTiff(tk.Frame):
             outputtifffile=self.outputtifffilesdatapath + '\\' + f
             m = ReadMonthlyMass(testFile)
             d = m.Read()
-            t = CreateTiff(outputtifffile + '.tif', 717, 357, 1)
+            t = CreateTiff_Global.CreateTiff(outputtifffile + '.tif', 717, 357, 1)
             t.SetGeotransform([-179.25, 0.5, 0.0, 89.25, 0.0, -0.5])
             for x in d.keys():
                 tmp = x.split(",")
