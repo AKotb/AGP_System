@@ -11,6 +11,7 @@ import DataSubsetFrame
 import NDWIComputationFrame
 import MOSAICGenerationFrame
 import MOSAICClippingFrame
+import GWSComputation
 
 
 class HomeWindow(tk.Frame):
@@ -56,6 +57,10 @@ class HomeWindow(tk.Frame):
         lakesmenu.add_command(label="Generate MOSAIC", command=self.generate_mosaic)
         lakesmenu.add_command(label="Clip MOSAIC", command=self.clip_mosaic)
         menubar.add_cascade(label="Lakes Processing", menu=lakesmenu)
+
+        gwsmenu = tk.Menu(menubar, tearoff=0)
+        gwsmenu.add_command(label="Ground Water Storage", command=self.compute_gws)
+        menubar.add_cascade(label="Ground Water", menu=gwsmenu)
 
         helpmenu = tk.Menu(menubar, tearoff=0)
         helpmenu.add_command(label="About", command=self.about)
@@ -136,6 +141,12 @@ class HomeWindow(tk.Frame):
         root = tk.Tk()
         root.geometry("600x250")
         MOSAICClippingFrame.MOSAICClippingFrame(root)
+        root.mainloop()
+
+    def compute_gws(self):
+        root = tk.Tk()
+        root.geometry("600x300")
+        GWSComputation.GWSComputation(root)
         root.mainloop()
 
 if __name__ == "__main__":
