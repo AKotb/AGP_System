@@ -145,7 +145,7 @@ class HomeWindow(tk.Frame):
 
     def compute_gws(self):
         root = tk.Tk()
-        root.geometry("600x300")
+        root.geometry("650x400")
         GWSComputation.GWSComputation(root)
         root.mainloop()
 
