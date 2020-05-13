@@ -52,7 +52,7 @@ class HomeWindow(tk.Frame):
         menubar.add_cascade(label="Processing", menu=processingmenu)
         
         lakesmenu = tk.Menu(menubar, tearoff=0)
-        lakesmenu.add_command(label="Subset Data", command=self.subset_data)
+        # lakesmenu.add_command(label="Subset Data", command=self.subset_data)
         lakesmenu.add_command(label="Compute NDWI", command=self.compute_ndwi)
         lakesmenu.add_command(label="Generate MOSAIC", command=self.generate_mosaic)
         lakesmenu.add_command(label="Clip MOSAIC", command=self.clip_mosaic)
@@ -119,27 +119,27 @@ class HomeWindow(tk.Frame):
         ZonalStatistics.ZonalStatistics(root)
         root.mainloop() 
         
-    def subset_data(self):
+    """def subset_data(self):
         root = tk.Tk()
         root.geometry("600x300")
         DataSubsetFrame.DataSubsetFrame(root)
-        root.mainloop()
+        root.mainloop()"""
         
     def compute_ndwi(self):
         root = tk.Tk()
-        root.geometry("600x250")
+        root.geometry("650x350")
         NDWIComputationFrame.NDWIComputationFrame(root)
         root.mainloop()
         
     def generate_mosaic(self):
         root = tk.Tk()
-        root.geometry("600x250")
+        root.geometry("700x250")
         MOSAICGenerationFrame.MOSAICGenerationFrame(root)
         root.mainloop()
         
     def clip_mosaic(self):
         root = tk.Tk()
-        root.geometry("600x250")
+        root.geometry("700x350")
         MOSAICClippingFrame.MOSAICClippingFrame(root)
         root.mainloop()
 

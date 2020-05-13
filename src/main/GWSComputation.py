@@ -86,9 +86,11 @@ class GWSComputation(tk.Frame):
 
     def gracesolutionchanged(self, selectedgracesolutionvalue):
         print selectedgracesolutionvalue
+        self.gracesolutionvar = selectedgracesolutionvalue
 
     def gldasmodelverionchanged(self, selectedgldasmodelversionvalue):
         print selectedgldasmodelversionvalue
+        self.gldasmodelverionvar = selectedgldasmodelversionvalue
 
     def selecttwsdatafile(self):
         self.twsdatafilepath = tkFileDialog.askopenfilename(initialdir="/", title="Select TWS Data File",
@@ -130,3 +132,7 @@ class GWSComputation(tk.Frame):
         print enteredswdatafilepath
         enteredgwsoutputdatafilepath = self.gwsoutputdatafilefield.get("1.0", tk.END)
         print enteredgwsoutputdatafilepath
+        enteredgracesolution = self.gracesolutionvar
+        print enteredgracesolution
+        enteredgldasmodelverion = self.gldasmodelverionvar
+        print enteredgldasmodelverion
