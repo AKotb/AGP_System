@@ -1,6 +1,5 @@
 import os
-from subprocess import *
-import subprocess
+
 import tkFileDialog
 
 import Tkinter as tk
@@ -14,34 +13,40 @@ class ZonalStatistics(tk.Frame):
         self.init_window()
 
     def init_window(self):
+
+        # window title in the title bar
         self.master.title("Zonal Statistics")
-        self.pack(fill=tk.BOTH, expand=1)
-        
+
+        # window title label
+        windowlbl = tk.Label(self.master, text="Zonal Statistics")
+        windowlbl.grid(padx=10, pady=10, row=0, column=0, columnspan=4)
+
+        # Raster Data Directory
         inputrasterdatadirlbl = tk.Label(self.master, text="Input Raster Data")
-        inputrasterdatadirlbl.place(x=20, y=50)
+        inputrasterdatadirlbl.grid(sticky='W', padx=10, pady=10, row=1, column=0)
         self.inputrasterdatadirtxtfield = tk.Text(self.master, height=1, width=50)
-        self.inputrasterdatadirtxtfield.place(x=130, y=50)
+        self.inputrasterdatadirtxtfield.grid(sticky='W', padx=10, pady=10, row=1, column=1, columnspan=2)
         inputrasterdatadirbtn = tk.Button(self.master, text="Browse", command=self.selectrasterdatadir)
-        inputrasterdatadirbtn.place(x=540, y=47)
+        inputrasterdatadirbtn.grid(sticky='W', padx=10, pady=10, row=1, column=3)
         
         outputtabledatadirlbl = tk.Label(self.master, text="Output Table")
-        outputtabledatadirlbl.place(x=20, y=100)
+        outputtabledatadirlbl.grid(sticky='W', padx=10, pady=10, row=2, column=0)
         self.outputtabledatadirtxtfield = tk.Text(self.master, height=1, width=50)
-        self.outputtabledatadirtxtfield.place(x=130, y=100)
+        self.outputtabledatadirtxtfield.grid(sticky='W', padx=10, pady=10, row=2, column=1, columnspan=2)
         outputtabledatadirbtn = tk.Button(self.master, text="Browse", command=self.selectoutputtabledatadir)
-        outputtabledatadirbtn.place(x=540, y=97)
+        outputtabledatadirbtn.grid(sticky='W', padx=10, pady=10, row=2, column=3)
         
         featurezonelbl = tk.Label(self.master, text="Feature Zone")
-        featurezonelbl.place(x=20, y=150)
+        featurezonelbl.grid(sticky='W', padx=10, pady=10, row=3, column=0)
         self.featurezonetxtfield = tk.Text(self.master, height=1, width=50)
-        self.featurezonetxtfield.place(x=130, y=150)
+        self.featurezonetxtfield.grid(sticky='W', padx=10, pady=10, row=3, column=1, columnspan=2)
         featurezonebtn = tk.Button(self.master, text="Browse", command=self.selectfeaturezone)
-        featurezonebtn.place(x=540, y=147)
+        featurezonebtn.grid(sticky='W', padx=10, pady=10, row=3, column=3)
 
         self.startbtn = tk.Button(self.master, text="Start", command=self.startzonalstatistics)
-        self.startbtn.place(x=500, y=200)
+        self.startbtn.grid(sticky='E', padx=10, pady=10, row=4, column=1)
         self.cancelbtn = tk.Button(self.master, text="Cancel", command=self.exit)
-        self.cancelbtn.place(x=540, y=200)
+        self.cancelbtn.grid(sticky='W', padx=10, pady=10, row=4, column=2)
 
     def exit(self):
         self.master.destroy()

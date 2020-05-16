@@ -62,6 +62,11 @@ class HomeWindow(tk.Frame):
         gwsmenu.add_command(label="Ground Water Storage", command=self.compute_gws)
         menubar.add_cascade(label="Ground Water", menu=gwsmenu)
 
+        trmmmenu = tk.Menu(menubar, tearoff=0)
+        trmmmenu.add_command(label="NC to GeoTIFF", command=self.nctogeotiff)
+        trmmmenu.add_command(label="Zonal Statistics", command=self.zonalstatistics)
+        menubar.add_cascade(label="TRMM", menu=trmmmenu)
+
         helpmenu = tk.Menu(menubar, tearoff=0)
         helpmenu.add_command(label="About", command=self.about)
         menubar.add_cascade(label="Help", menu=helpmenu)
@@ -115,7 +120,7 @@ class HomeWindow(tk.Frame):
 
     def zonalstatistics(self):
         root = tk.Tk()
-        root.geometry("600x250")
+        root.geometry("650x250")
         ZonalStatistics.ZonalStatistics(root)
         root.mainloop() 
         
