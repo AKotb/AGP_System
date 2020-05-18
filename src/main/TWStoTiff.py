@@ -38,20 +38,19 @@ class TWStoTiff(tk.Frame):
         outputtiffdirbtn = tk.Button(self.master, text="Browse", command=self.selectoutputtiffdatadir)
         outputtiffdirbtn.place(x=540, y=77)
 
-        #self.conversionstartedlbl = tk.Label(self.master, text="Conversion Started...")
-        #self.conversionstartedlbl.place(x=20, y=150)
-        #self.conversionstartedlbl.place_forget()
+        # self.conversionstartedlbl = tk.Label(self.master, text="Conversion Started...")
+        # self.conversionstartedlbl.place(x=20, y=150)
+        # self.conversionstartedlbl.place_forget()
 
         self.conversioncompletedlbl = tk.Label(self.master, text="Conversion Completed")
-        #self.conversioncompletedlbl.place(x=200, y=150)
-        #self.conversioncompletedlbl.place_forget()
+        # self.conversioncompletedlbl.place(x=200, y=150)
+        # self.conversioncompletedlbl.place_forget()
 
         self.startconvertingtwsmassanomaliestotiffbtn = tk.Button(self.master, text="Start",
-                                                         command=self.converttwsmassanomaliestotiff)
+                                                                  command=self.converttwsmassanomaliestotiff)
         self.startconvertingtwsmassanomaliestotiffbtn.place(x=500, y=200)
         self.cancelbtn = tk.Button(self.master, text="Cancel", command=self.exit)
         self.cancelbtn.place(x=450, y=200)
-
 
     def exit(self):
         self.master.destroy()
@@ -62,16 +61,17 @@ class TWStoTiff(tk.Frame):
         self.inputtwsdirtxtfield.insert(tk.END, self.twsfilesdatapath)
 
     def selectoutputtiffdatadir(self):
-        self.outputtifffilesdatapath = tkFileDialog.askdirectory(initialdir="/", title="Select Output TIFF Files Directory")
+        self.outputtifffilesdatapath = tkFileDialog.askdirectory(initialdir="/",
+                                                                 title="Select Output TIFF Files Directory")
         self.outputtiffdirtxtfield.delete(1.0, tk.END)
         self.outputtiffdirtxtfield.insert(tk.END, self.outputtifffilesdatapath)
 
     def converttwsmassanomaliestotiff(self):
-        #self.conversionstartedlbl.place(x=20, y=150)
+        # self.conversionstartedlbl.place(x=20, y=150)
         myfilesList = os.listdir(self.twsfilesdatapath)
         for f in myfilesList:
             testFile = self.twsfilesdatapath + '\\' + f
-            outputtifffile=self.outputtifffilesdatapath + '\\' + f
+            outputtifffile = self.outputtifffilesdatapath + '\\' + f
             m = ReadMonthlyMass(testFile)
             d = m.Read()
             t = CreateTiff_Global.CreateTiff(outputtifffile + '.tif', 717, 357, 1)

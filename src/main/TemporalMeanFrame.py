@@ -1,9 +1,7 @@
 import gzip
 import os
 import tkFileDialog
-
 import xlsxwriter
-
 import Tkinter as tk
 import numpy as np
 
@@ -16,26 +14,30 @@ class TemporalMeanFrame(tk.Frame):
         self.init_window()
 
     def init_window(self):
+        # window title in the title bar
         self.master.title("Temporal Mean Calculation")
-        self.pack(fill=tk.BOTH, expand=1)
 
+        # window title label
+        windowlbl = tk.Label(self.master, text="Temporal Mean Calculation")
+        windowlbl.grid(padx=10, pady=10, row=0, column=0, columnspan=3)
+
+        # GRACE RAW Data Directory
         inputgracedirlbl = tk.Label(self.master, text="Raw Data Directory")
-        inputgracedirlbl.place(x=20, y=50)
-
+        inputgracedirlbl.grid(sticky='W', padx=10, pady=10, row=1, column=0)
         self.inputgracedirtxtfield = tk.Text(self.master, height=1, width=50)
-        self.inputgracedirtxtfield.place(x=130, y=50)
-
+        self.inputgracedirtxtfield.grid(sticky='W', padx=10, pady=10, row=1, column=1, columnspan=2)
         inputgracedirbtn = tk.Button(self.master, text="Browse", command=self.selectgracerawdatadir)
-        inputgracedirbtn.place(x=540, y=47)
+        inputgracedirbtn.grid(sticky='W', padx=10, pady=10, row=1, column=3)
 
-        self.startcalculatingtemporalmeanbtn = tk.Button(self.master, text="Calculate Temporal Mean",
-                                                         command=self.calculatetemporalmean)
-        self.startcalculatingtemporalmeanbtn.place(x=450, y=200)
+        # Control Buttons
+        self.startcalculatingtemporalmeanbtn = tk.Button(self.master, text="Calculate Temporal Mean", command=self.calculatetemporalmean)
+        self.startcalculatingtemporalmeanbtn.grid(sticky='E', padx=10, pady=10, row=2, column=1)
         self.cancelbtn = tk.Button(self.master, text="Cancel", command=self.exit)
-        self.cancelbtn.place(x=400, y=200)
+        self.cancelbtn.grid(sticky='W', padx=10, pady=10, row=2, column=2)
 
+        # open generated temporal mean
         self.opentemporalmeanbtn = tk.Button(self.master, text="Open Temporal Mean", command=self.opentemporalmean)
-        self.opentemporalmeanbtn.place(x=50, y=200)
+        self.opentemporalmeanbtn.grid(sticky='E', padx=10, pady=10, row=3, column=2, columnspan=2)
         self.opentemporalmeanbtn.config(state="disabled")
 
     def exit(self):
@@ -153,7 +155,7 @@ class TemporalMeanFrame(tk.Frame):
                 for xx in range(0, grace_base + 1):
                     for yy in range(0, xx + 1):
                         o.write('{0:6d}'.format(xx) + "  " + '{0:6d}'.format(yy) + "    " + (
-                                    '%.8E' % clm_cleaned[xx, yy, i]) + "  " + ('%.8E' % slm_cleaned[xx, yy, i]) + "\n")
+                                '%.8E' % clm_cleaned[xx, yy, i]) + "  " + ('%.8E' % slm_cleaned[xx, yy, i]) + "\n")
                 o.close()
             except Exception as e:
                 print(e)

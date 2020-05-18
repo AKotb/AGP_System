@@ -11,9 +11,9 @@ class TWSMassAnomaliesCalculator(tk.Frame):
         tk.Frame.__init__(self, master)
         self.master = master
         self.filtersdir = os.path.join(os.path.dirname(os.path.dirname(os.getcwd())), "resources")
-        self.selectedfilter='Gaussian'
-        self.selectedradius='0 km'
-        self.filtertorun='Calculating_TWS_mass_NDS_0km.exe'
+        self.selectedfilter = 'Gaussian'
+        self.selectedradius = '0 km'
+        self.filtertorun = 'Calculating_TWS_mass_NDS_0km.exe'
         self.init_window()
 
     def init_window(self):
@@ -47,7 +47,6 @@ class TWSMassAnomaliesCalculator(tk.Frame):
         gausssianradiuslbl = tk.Label(self.master, text="Choose Filter ")
         gausssianradiuslbl.place(x=20, y=50)
 
-
         # Formatted Data Directory
         inputgracedirlbl = tk.Label(self.master, text="Formatted GRACE Data Directory")
         inputgracedirlbl.place(x=20, y=100)
@@ -78,29 +77,30 @@ class TWSMassAnomaliesCalculator(tk.Frame):
         # lovenumbersbtn = tk.Button(self.master, text="Browse", command=self.selectlovenumbersdir)
         # lovenumbersbtn.place(x=540, y=197)
 
-
         self.startcalculatingtwsmassanomaliesbtn = tk.Button(self.master, text="Start",
-                                                         command=self.calculatetwsmassanomalies)
+                                                             command=self.calculatetwsmassanomalies)
         self.startcalculatingtwsmassanomaliesbtn.place(x=450, y=250)
         self.cancelbtn = tk.Button(self.master, text="Cancel", command=self.exit)
         self.cancelbtn.place(x=400, y=250)
 
     def fwfunc(self, value):
-        self.selectedfilter=value
+        self.selectedfilter = value
 
     def rwfunc(self, value):
-        self.selectedradius=value
+        self.selectedradius = value
 
     def exit(self):
         self.master.destroy()
 
     def selectgraceformatteddatadir(self):
-        self.formatteddatapath = tkFileDialog.askdirectory(initialdir="/", title="Select GRACE formatted Data Directory")
+        self.formatteddatapath = tkFileDialog.askdirectory(initialdir="/",
+                                                           title="Select GRACE formatted Data Directory")
         self.inputgracedirtxtfield.delete(1.0, tk.END)
         self.inputgracedirtxtfield.insert(tk.END, self.formatteddatapath)
 
     def selectmonthstoprocessfile(self):
-        self.monthstoprocessfilepath = tkFileDialog.askopenfilename(initialdir="/", title="Select Months to Process File")
+        self.monthstoprocessfilepath = tkFileDialog.askopenfilename(initialdir="/",
+                                                                    title="Select Months to Process File")
         self.monthstoprocesstxtfield.delete(1.0, tk.END)
         self.monthstoprocesstxtfield.insert(tk.END, self.monthstoprocessfilepath)
         self.headmonthtoprocess, self.tailmonthtoprocess = os.path.split(self.monthstoprocessfilepath)
@@ -137,8 +137,12 @@ class TWSMassAnomaliesCalculator(tk.Frame):
             self.filtertorun = "Calculating_TWS_mass_DS_990km.exe"
 
         print(self.filtertorun)
-        batfilepath = os.path.join(os.path.dirname(os.path.dirname(os.getcwd())), "resources\TWS_Mass_Anomalies_Calculation.bat")
+        batfilepath = os.path.join(os.path.dirname(os.path.dirname(os.getcwd())),
+                                   "resources\TWS_Mass_Anomalies_Calculation.bat")
         drive, path = os.path.splitdrive(self.formatteddatapath)
-        p = Popen([batfilepath, drive, self.formatteddatapath, self.filtersdir, self.formatteddatapath, self.filtertorun, self.headmonthtoprocess, self.formatteddatapath, self.tailmonthtoprocess, self.filtertorun], stdout=PIPE, stderr=PIPE)
+        p = Popen(
+            [batfilepath, drive, self.formatteddatapath, self.filtersdir, self.formatteddatapath, self.filtertorun,
+             self.headmonthtoprocess, self.formatteddatapath, self.tailmonthtoprocess, self.filtertorun], stdout=PIPE,
+            stderr=PIPE)
         p.communicate()
         p.wait()

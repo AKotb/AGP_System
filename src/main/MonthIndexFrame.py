@@ -1,8 +1,6 @@
 import os
 import tkFileDialog
-
 import xlsxwriter
-
 import Tkinter as tk
 
 
@@ -14,26 +12,30 @@ class MonthIndexFrame(tk.Frame):
         self.init_window()
 
     def init_window(self):
-        self.master.title("Month Index")
-        self.pack(fill=tk.BOTH, expand=1)
+        # window title in the title bar
+        self.master.title("Month Index Generator")
 
+        # window title label
+        windowlbl = tk.Label(self.master, text="Month Index Generator")
+        windowlbl.grid(padx=10, pady=10, row=0, column=0, columnspan=3)
+
+        # GRACE RAW Data Directory
         inputgracedirlbl = tk.Label(self.master, text="Raw Data Directory")
-        inputgracedirlbl.place(x=20, y=50)
-
+        inputgracedirlbl.grid(sticky='W', padx=10, pady=10, row=1, column=0)
         self.inputgracedirtxtfield = tk.Text(self.master, height=1, width=50)
-        self.inputgracedirtxtfield.place(x=130, y=50)
-
+        self.inputgracedirtxtfield.grid(sticky='W', padx=10, pady=10, row=1, column=1, columnspan=2)
         inputgracedirbtn = tk.Button(self.master, text="Browse", command=self.selectgracerawdatadir)
-        inputgracedirbtn.place(x=540, y=47)
+        inputgracedirbtn.grid(sticky='W', padx=10, pady=10, row=1, column=3)
 
-        self.startgeneratingmonthindexbtn = tk.Button(self.master, text="Generate Month Index",
-                                                      command=self.generatemonthindex)
-        self.startgeneratingmonthindexbtn.place(x=450, y=200)
+        # Control Buttons
+        self.startgeneratingmonthindexbtn = tk.Button(self.master, text="Generate Month Index", command=self.generatemonthindex)
+        self.startgeneratingmonthindexbtn.grid(sticky='E', padx=10, pady=10, row=2, column=1)
         self.cancelbtn = tk.Button(self.master, text="Cancel", command=self.exit)
-        self.cancelbtn.place(x=400, y=200)
+        self.cancelbtn.grid(sticky='W', padx=10, pady=10, row=2, column=2)
 
+        # open generated month index
         self.openmonthindexbtn = tk.Button(self.master, text="Open Month Index", command=self.openmonthindex)
-        self.openmonthindexbtn.place(x=50, y=200)
+        self.openmonthindexbtn.grid(sticky='E', padx=10, pady=10, row=3, column=2, columnspan=2)
         self.openmonthindexbtn.config(state="disabled")
 
     def exit(self):
@@ -113,10 +115,7 @@ class MonthIndexFrame(tk.Frame):
                             month = 'Dec'
                         monthyear = month + '/' + year
                         currentmonth = month
-                        # print('Current Month: ' + currentmonth)
                         self.previousmonth = self.getpreviousmonth(currentmonth);
-                        # print('Previous Month: '+self.previousmonth)
-                        # print('Last Month: ' + self.lastmonth)
                         if row != 1:  # First Record
                             if self.lastmonth == self.previousmonth:
                                 worksheet.write(row, 0, filename)
