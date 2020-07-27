@@ -1,8 +1,8 @@
 import os
 
 import tkFileDialog
-
 import Tkinter as tk
+import batch_zonal_stats as zs
 
 
 class ZonalStatistics(tk.Frame):
@@ -68,21 +68,21 @@ class ZonalStatistics(tk.Frame):
         self.featurezonetxtfield.insert(tk.END, self.featurezonepath)
 
     def startzonalstatistics(self):
-        #inputrasterdata = self.inputrasterdatadirtxtfield.get("1.0", tk.END)
-        #inputrasterdata = "-i "+inputrasterdata
-        inputrasterdata = r"-i D:/NARSS/Research Project/2018-2019/01-01-2020/Land_Surface_Models_Tasks/Task2_SUM_TIFFs_Output/CLM"
+        inputrasterdata = self.inputrasterdatadirtxtfield.get("1.0", tk.END)
+        #inputrasterdata = r"D:/NARSS/Research Project/2018-2019/01-01-2020/Land_Surface_Models_Tasks/Task2_SUM_TIFFs_Output/CLM"
         print "inputrasterdata: "+inputrasterdata
 
-        #outputtable = self.outputtabledatadirtxtfield.get("1.0", tk.END)
-        #outputtable = "-o "+outputtable
-        outputtable = r"-o D:/NARSS/Research Project/2018-2019/01-01-2020/Land_Surface_Models_Tasks/Task3_Zonal-Statistics_Output/CLM"
+        outputtable = self.outputtabledatadirtxtfield.get("1.0", tk.END)
+        #outputtable = r"D:/NARSS/Research Project/2018-2019/01-01-2020/Land_Surface_Models_Tasks/Task3_Zonal-Statistics_Output/CLM"
         print "outputtable: "+outputtable
 
-        #featurezone = self.featurezonetxtfield.get("1.0", tk.END)
-        #featurezone = "-f "+featurezone
-        featurezone = r"-f D:/NARSS/Research Project/2018-2019/01-01-2020/Land_Surface_Models_Tasks/Nile_basin_shp/Features-polygon.shp"
+        featurezone = self.featurezonetxtfield.get("1.0", tk.END)
+        #featurezone = r"D:/NARSS/Research Project/2018-2019/01-01-2020/Land_Surface_Models_Tasks/Nile_basin_shp/Features-polygon.shp"
         print "featurezone: "+featurezone
 
+        zs.batch_calculate_zonal_stats(str(inputrasterdata), str(outputtable), str(featurezone))
+
+        '''
         # ArcGIS Python Interpreter
         arcgisinterpreter = r"C:\Python27\ArcGIS10.4\python.exe"
 
@@ -92,3 +92,4 @@ class ZonalStatistics(tk.Frame):
         command = 'cmd /k {0} {1} "{2}" "{3}" "{4}"'.format(arcgisinterpreter, zonalstatistics_script, inputrasterdata,
                                                             outputtable, featurezone)
         os.system(command)
+        '''
