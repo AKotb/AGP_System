@@ -69,18 +69,21 @@ class ZonalStatistics(tk.Frame):
 
     def startzonalstatistics(self):
         inputrasterdata = self.inputrasterdatadirtxtfield.get("1.0", tk.END)
-        #inputrasterdata = r"D:/NARSS/Research Project/2018-2019/01-01-2020/Land_Surface_Models_Tasks/Task2_SUM_TIFFs_Output/CLM"
+        inputrasterdata = inputrasterdata.encode('ascii', 'ignore')
+        #inputrasterdata = r"D:/NARSS/Research_Project/2018-2019/01-01-2020/Land_Surface_Models_Tasks/Task2_SUM_TIFFs_Output/CLM"
         print "inputrasterdata: "+inputrasterdata
 
         outputtable = self.outputtabledatadirtxtfield.get("1.0", tk.END)
-        #outputtable = r"D:/NARSS/Research Project/2018-2019/01-01-2020/Land_Surface_Models_Tasks/Task3_Zonal-Statistics_Output/CLM"
+        outputtable = outputtable.encode('ascii', 'ignore')
+        #outputtable = r"D:/NARSS/Research_Project/2018-2019/01-01-2020/Land_Surface_Models_Tasks/Task3_Zonal-Statistics_Output/CLM"
         print "outputtable: "+outputtable
 
         featurezone = self.featurezonetxtfield.get("1.0", tk.END)
-        #featurezone = r"D:/NARSS/Research Project/2018-2019/01-01-2020/Land_Surface_Models_Tasks/Nile_basin_shp/Features-polygon.shp"
+        featurezone = featurezone.encode('ascii', 'ignore')
+        #featurezone = r"D:/NARSS/Research_Project/2018-2019/01-01-2020/Land_Surface_Models_Tasks/Nile_basin_shp/Features-polygon.shp"
         print "featurezone: "+featurezone
 
-        zs.batch_calculate_zonal_stats(str(inputrasterdata), str(outputtable), str(featurezone))
+        zs.batch_calculate_zonal_stats(inputrasterdata, outputtable, featurezone)
 
         '''
         # ArcGIS Python Interpreter
