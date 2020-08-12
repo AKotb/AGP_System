@@ -1,6 +1,6 @@
 import tkFileDialog
 import Tkinter as tk
-
+import ndwi_mosaic
 
 class MOSAICGenerationFrame(tk.Frame):
 
@@ -54,6 +54,13 @@ class MOSAICGenerationFrame(tk.Frame):
 
     def generatendwimosaic(self):
         enteredinputndwidatadirpath = self.inputndwidatadirfield.get("1.0", tk.END)
+        if (enteredinputndwidatadirpath.endswith("\n")):
+            enteredinputndwidatadirpath = enteredinputndwidatadirpath[:-1]
         print enteredinputndwidatadirpath
+
         enteredoutputndwimosaicdirpath = self.outputndwimosaicdirfield.get("1.0", tk.END)
+        if (enteredoutputndwimosaicdirpath.endswith("\n")):
+            enteredoutputndwimosaicdirpath = enteredoutputndwimosaicdirpath[:-1]
         print enteredoutputndwimosaicdirpath
+
+        ndwi_mosaic.generate_ndwi_mosaic_batch(enteredinputndwidatadirpath, enteredoutputndwimosaicdirpath)

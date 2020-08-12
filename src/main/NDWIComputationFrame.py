@@ -1,5 +1,6 @@
 import tkFileDialog
 import Tkinter as tk
+import ndwi_tiff_modis
 
 
 class NDWIComputationFrame(tk.Frame):
@@ -80,10 +81,19 @@ class NDWIComputationFrame(tk.Frame):
 
     def computendwi(self):
         enteredinputdatadirpath = self.inputdatadirfield.get("1.0", tk.END)
+        if(enteredinputdatadirpath.endswith("\n")):
+            enteredinputdatadirpath = enteredinputdatadirpath[:-1]
         print enteredinputdatadirpath
+
         enteredoutputndwidirpath = self.outputndwidirfield.get("1.0", tk.END)
+        if (enteredoutputndwidirpath.endswith("\n")):
+            enteredoutputndwidirpath = enteredoutputndwidirpath[:-1]
         print enteredoutputndwidirpath
+
         enterednirbandorder = self.nirbandordervar
         print enterednirbandorder
         enteredswirbandorder =  self.swirbandordervar
         print enteredswirbandorder
+        threshold = 0.5
+
+        ndwi_tiff_modis.compute_ndwi(enteredinputdatadirpath, enteredoutputndwidirpath, enterednirbandorder, enteredswirbandorder, threshold)

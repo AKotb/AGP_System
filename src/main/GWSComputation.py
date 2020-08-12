@@ -1,6 +1,8 @@
 import Tkinter as tk
 import tkFileDialog
-
+import pandas as pd
+from pandas import ExcelWriter
+from pandas import ExcelFile
 
 class GWSComputation(tk.Frame):
     def __init__(self, master=None):
@@ -66,7 +68,7 @@ class GWSComputation(tk.Frame):
         swdatafilebtn.grid(sticky='W', padx=10, pady=10, row=5, column=3)
 
         # Enter Ground Water Storage output Data File Path
-        gwsoutputdatafilelbl = tk.Label(self.master, text="GWS Output Data File")
+        gwsoutputdatafilelbl = tk.Label(self.master, text="GWS Output Directory")
         gwsoutputdatafilelbl.grid(sticky='W', padx=10, pady=10, row=6, column=0)
 
         self.gwsoutputdatafilefield = tk.Text(self.master, height=1, width=45)
@@ -85,11 +87,11 @@ class GWSComputation(tk.Frame):
         self.master.destroy()
 
     def gracesolutionchanged(self, selectedgracesolutionvalue):
-        print selectedgracesolutionvalue
+        # print selectedgracesolutionvalue
         self.gracesolutionvar = selectedgracesolutionvalue
 
     def gldasmodelverionchanged(self, selectedgldasmodelversionvalue):
-        print selectedgldasmodelversionvalue
+        # print selectedgldasmodelversionvalue
         self.gldasmodelverionvar = selectedgldasmodelversionvalue
 
     def selecttwsdatafile(self):
@@ -115,24 +117,64 @@ class GWSComputation(tk.Frame):
         self.swdatafilefield.insert(tk.END, self.swdatafilepath)
 
     def selectgwsoutputdatafile(self):
-        self.gwsoutputdatafilepath = tkFileDialog.asksaveasfilename(initialdir="/",
-                                                                    title="Select GWS Output File Name",
-                                                                    filetypes=(
-                                                                        ("Excel Sheet", "*.xlsx"),
-                                                                        ("All Files", "*.*")))
+        self.gwsoutputdatafilepath = tkFileDialog.askdirectory(initialdir="/", title="Select GWS Output Directory")
         self.gwsoutputdatafilefield.delete(1.0, tk.END)
         self.gwsoutputdatafilefield.insert(tk.END, self.gwsoutputdatafilepath)
 
     def computegws(self):
+        selectedgracesolution = self.gracesolutionvar
+        # print selectedgracesolution
+
         enteredtwsdatafilepath = self.gracetwsfilefield.get("1.0", tk.END)
-        print enteredtwsdatafilepath
+        if (enteredtwsdatafilepath.endswith("\n")):
+            enteredtwsdatafilepath = enteredtwsdatafilepath[:-1]
+        twsdf = pd.read_excel(enteredtwsdatafilepath, sheet_name='Sheet1')
+        # print(twsdf.columns)
+        listGraceJPLData = twsdf[selectedgracesolution+'_TWS']
+        monthsList = twsdf['Month']
+        # print(len(listGraceJPLData))
+
+        selectedgldasmodelverion = self.gldasmodelverionvar
+        # print selectedgldasmodelverion
+
         enteredgldasmodeldatafilepath = self.gldasmodelveriondatafilefield.get("1.0", tk.END)
-        print enteredgldasmodeldatafilepath
+        if (enteredgldasmodeldatafilepath.endswith("\n")):
+            enteredgldasmodeldatafilepath = enteredgldasmodeldatafilepath[:-1]
+        gldasdf = pd.read_excel(enteredgldasmodeldatafilepath, sheet_name='Sheet1')
+        # print(gldasdf.columns)
+        listGLDASData = gldasdf[selectedgldasmodelverion+'_TWS']
+        # print(len(listGLDASData))
+
         enteredswdatafilepath = self.swdatafilefield.get("1.0", tk.END)
-        print enteredswdatafilepath
+        if (enteredswdatafilepath.endswith("\n")):
+            enteredswdatafilepath = enteredswdatafilepath[:-1]
+        swsdf = pd.read_excel(enteredswdatafilepath, sheet_name='Sheet1')
+        # print(swsdf.columns)
+        listSWSData = swsdf['SWS']
+        # print(len(listSWSData))
+
         enteredgwsoutputdatafilepath = self.gwsoutputdatafilefield.get("1.0", tk.END)
-        print enteredgwsoutputdatafilepath
-        enteredgracesolution = self.gracesolutionvar
-        print enteredgracesolution
-        enteredgldasmodelverion = self.gldasmodelverionvar
-        print enteredgldasmodelverion
+        if (enteredgwsoutputdatafilepath.endswith("\n")):
+            enteredgwsoutputdatafilepath = enteredgwsoutputdatafilepath[:-1]
+
+        gwsdf = listGraceJPLData - listGLDASData - listSWSData
+        formattedgwsdf = pd.DataFrame({'GWS': gwsdf, 'Month': monthsList})
+        writer = pd.ExcelWriter(enteredgwsoutputdatafilepath+'/Net_GWS_Generated.xlsx', engine='xlsxwriter')
+        formattedgwsdf.to_excel(writer, sheet_name='sheet1', index=False)
+        writer.save()
+        writer.close()
+
+        self.startcomputinggwsbtn.grid_forget()
+        self.cancelbtn.grid_forget()
+
+        self.closecomputinggwsbtn = tk.Button(self.master, text="Close", width=15, command=self.exit)
+        self.closecomputinggwsbtn.grid(sticky='E', padx=10, pady=10, row=7, column=1)
+        self.startnewgwsbtn = tk.Button(self.master, text="New GWS Window", width=15, command=self.reset)
+        self.startnewgwsbtn.grid(sticky='W', padx=10, pady=10, row=7, column=2)
+
+    def reset(self):
+        self.master.destroy()
+        root = tk.Tk()
+        root.geometry("650x400")
+        GWSComputation(root)
+        root.mainloop()
